@@ -62,7 +62,7 @@ export const recipeAPI = {
   likeRecipe: (id: string) =>
     api.post(`/recipes/${id}/like`),
   addComment: (id: string, comment: string) =>
-    api.post(`/recipes/${id}/comment`, { comment }),
+    api.post(`/recipes/${id}/comments`, { text: comment }),
 };
 
 export const userAPI = {

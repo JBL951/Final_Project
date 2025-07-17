@@ -5,6 +5,7 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
+import ImageUpload from '../ui/ImageUpload';
 import { toast } from '../ui/Toaster';
 import { recipeAPI } from '../../services/api';
 
@@ -207,11 +208,9 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, isEditing = false }) =>
           </div>
 
           <div className="md:col-span-2">
-            <Input
-              label="Image URL (optional)"
-              value={formData.image_url || ''}
-              onChange={(value) => setFormData(prev => ({ ...prev, image_url: value }))}
-              placeholder="https://example.com/image.jpg"
+            <ImageUpload
+              onImageUpload={(imageUrl) => setFormData(prev => ({ ...prev, image_url: imageUrl }))}
+              currentImage={formData.image_url}
             />
           </div>
         </div>

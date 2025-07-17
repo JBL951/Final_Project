@@ -72,7 +72,7 @@ router.get('/my', auth, async (req, res) => {
 // @access  Public
 router.get('/search', async (req, res) => {
   try {
-    const { q, tags, difficulty, author } = req.query;
+    const { q } = req.query;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 12;
     const skip = (page - 1) * limit;
@@ -81,28 +81,18 @@ router.get('/search', async (req, res) => {
 
     // Text search
     if (q) {
-      query.$text = { $search: q };
-    }
-
-    // Filter by tags
-    if (tags) {
-      const tagArray = tags.split(',').map(tag => tag.trim());
-      query.tags = { $in: tagArray };
-    }
-
-    // Filter by difficulty
-    if (difficulty) {
-      query.difficulty = difficulty;
-    }
-
-    // Filter by author
-    if (author) {
-      query.author = author;
+      const searchRegex = new RegExp(q, 'i');
+      query.$or = [
+        { title: searchRegex },
+        { description: searchRegex },
+        { ingredients: { $in: [searchRegex] } },
+        { tags: { $in: [searchRegex] } }
+      ];
     }
 
     const recipes = await Recipe.find(query)
       .populate('author', 'username avatar')
-      .sort(q ? { score: { $meta: 'textScore' } } : { createdAt: -1 })
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
@@ -111,11 +101,12 @@ router.get('/search', async (req, res) => {
     res.json({
       recipes,
       pagination: {
-        current: page,
-        pages: Math.ceil(total / limit),
-        total
+        page: page,
+        limit: limit,
+        total: total,
+        hasMore: skip + recipes.length < total
       },
-      query: { q, tags, difficulty, author }
+      query: q
     });
   } catch (error) {
     console.error('Search recipes error:', error);
