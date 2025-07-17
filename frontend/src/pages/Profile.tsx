@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import Card from '../components/ui/Card';
 import { userAPI } from '../services/api';
+import { useSocket } from '../contexts/SocketContext';
 
 interface UserProfile {
   id: string;
@@ -19,12 +20,26 @@ interface UserProfile {
 
 const Profile: React.FC = () => {
   const { user } = useAuth();
+  const { socket } = useSocket();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchProfile();
   }, []);
+
+  useEffect(() => {
+    if (!socket || !user) return;
+    // Listen for real-time profile stats updates
+    socket.on('profileStatsUpdated', (data: { userId: string; stats: UserProfile['stats'] }) => {
+      if (profile && data.userId === profile.id) {
+        setProfile(prev => prev ? { ...prev, stats: data.stats } : prev);
+      }
+    });
+    return () => {
+      socket.off('profileStatsUpdated');
+    };
+  }, [socket, user, profile]);
 
   const fetchProfile = async () => {
     try {
