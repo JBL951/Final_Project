@@ -1,264 +1,433 @@
 # TasteBase User Guide
 
-## Table of Contents
-1. [Getting Started](#getting-started)
-2. [Account Management](#account-management)
-3. [Recipe Management](#recipe-management)
-4. [Discovering Recipes](#discovering-recipes)
-5. [Social Features](#social-features)
-6. [Advanced Features](#advanced-features)
-7. [Troubleshooting](#troubleshooting)
+Welcome to TasteBase, your personal recipe sharing and management platform! This guide will help you get started and make the most of all the features available.
 
 ## Getting Started
 
 ### Creating an Account
 
-1. **Visit TasteBase**: Navigate to the TasteBase homepage
-2. **Click "Register"**: Find the register button in the top navigation
-3. **Fill out the form**:
-   - **Username**: Choose a unique username (3-30 characters, letters, numbers, underscores only)
-   - **Email**: Provide a valid email address
-   - **Password**: Create a strong password (minimum 6 characters, must include uppercase, lowercase, and number)
-   - **Confirm Password**: Re-enter your password to confirm
-4. **Create Account**: Click the "Create Account" button
-5. **Welcome!**: You'll be automatically logged in and redirected to your dashboard
+1. **Visit the Sign Up Page**
+   - Click "Sign In" in the top navigation
+   - Select "Sign up" if you don't have an account
+
+2. **Fill in Your Information**
+   - **Username**: Choose a unique username (3-30 characters)
+   - **Email**: Enter a valid email address
+   - **Password**: Create a secure password (minimum 6 characters)
+   - **Confirm Password**: Re-enter your password
+
+3. **Complete Registration**
+   - Click "Create Account"
+   - You'll be automatically logged in and redirected to the homepage
 
 ### Logging In
 
-1. **Click "Login"**: Find the login button in the top navigation
-2. **Enter credentials**:
-   - **Email**: Your registered email address
-   - **Password**: Your account password
-3. **Sign In**: Click the "Sign In" button
-4. **Dashboard**: You'll be redirected to your personal dashboard
+1. **Access the Login Page**
+   - Click "Sign In" in the top navigation
+   - Enter your email and password
+   - Click "Sign In"
 
-## Account Management
+2. **Demo Account**
+   - For testing purposes, you can use:
+   - Email: `john@example.com`
+   - Password: `password123`
 
-### Viewing Your Profile
+## Homepage Features
 
-1. **Access Profile**: Click your username in the top navigation, then select "Profile"
-2. **Profile Information**: View your account details including:
-   - Username and email
-   - Member since date
-   - Recipe statistics (total recipes, public recipes, total likes received)
-3. **Statistics Dashboard**: See your cooking activity at a glance
+### Discovering Recipes
 
-### Logging Out
+The homepage displays public recipes from all users in the community.
 
-1. **User Menu**: Click your username in the top navigation
-2. **Logout**: Select "Logout" from the dropdown menu
-3. **Confirmation**: You'll be logged out and redirected to the homepage
+#### Recipe Cards
+Each recipe card shows:
+- **Recipe Image**: Visual preview of the dish
+- **Recipe Title**: Name of the recipe
+- **Description**: Brief description of the dish
+- **Author**: Username of the recipe creator
+- **Cook Time**: Estimated preparation and cooking time
+- **Likes**: Number of likes from other users
 
-## Recipe Management
+#### Browsing Options
 
-### Creating a New Recipe
+1. **Category Filters**
+   - **All**: Show all public recipes
+   - **Breakfast**: Morning meal recipes
+   - **Lunch**: Midday meal recipes
+   - **Dinner**: Evening meal recipes
+   - **Dessert**: Sweet treats and desserts
+   - **Vegetarian**: Plant-based recipes
 
-1. **Access Creation**: Click the "Create Recipe" button (available in navigation or dashboard)
-2. **Fill out recipe details**:
-   - **Title**: Give your recipe a descriptive name
-   - **Description**: Provide an overview of your dish
-   - **Cooking Time**: Enter time in minutes
-   - **Servings**: Number of people the recipe serves
-   - **Image URL**: (Optional) Add a link to a recipe image
-3. **Add Ingredients**:
-   - Enter each ingredient in separate fields
-   - Use the "Add Ingredient" button to add more fields
-   - Remove ingredients with the minus button
-4. **Add Instructions**:
-   - Enter each step as a separate instruction
-   - Instructions are automatically numbered
-   - Use the "Add Instruction" button for more steps
-5. **Add Tags**: 
-   - Type a tag and click "Add Tag" or press Enter
-   - Tags help others find your recipe
-   - Remove tags by clicking the X on each tag
-6. **Privacy Setting**: Choose whether to make your recipe public or private
-7. **Save Recipe**: Click "Create Recipe" to save
+2. **Sorting Options**
+   - **Latest**: Most recently created recipes
+   - **Popular**: Most liked recipes
+   - **Cook Time**: Sorted by preparation time
 
-### Editing Your Recipes
-
-1. **Access Dashboard**: Go to your dashboard to see all your recipes
-2. **Edit Recipe**: Hover over a recipe card and click the edit icon
-3. **Update Information**: Modify any recipe details as needed
-4. **Save Changes**: Click "Update Recipe" to save your changes
-
-### Deleting Recipes
-
-1. **Access Dashboard**: Go to your dashboard
-2. **Delete Recipe**: Hover over a recipe card and click the trash icon
-3. **Confirm Deletion**: Confirm that you want to delete the recipe
-4. **Permanent Action**: Note that deletion cannot be undone
-
-### Managing Recipe Privacy
-
-- **Public Recipes**: Visible to all users, can be liked and commented on
-- **Private Recipes**: Only visible to you, great for personal or family recipes
-- **Changing Privacy**: Edit your recipe and toggle the "Make this recipe public" checkbox
-
-## Discovering Recipes
-
-### Browsing Public Recipes
-
-1. **Homepage**: The homepage displays the latest public recipes
-2. **Recipe Cards**: Each card shows:
-   - Recipe image (or placeholder)
-   - Title and description
-   - Cooking time and servings
-   - Tags
-   - Author name
-   - Like count
-3. **Load More**: Click "Load More Recipes" to see additional recipes
-
-### Searching for Recipes
-
-1. **Search Bar**: Use the search bar in the top navigation
-2. **Search Terms**: Enter ingredients, recipe names, or tags
-3. **Search Results**: View matching recipes with result count
-4. **Refine Search**: Try different keywords if you don't find what you're looking for
+3. **Search Functionality**
+   - Use the search bar to find specific recipes
+   - Search by ingredient, recipe name, or tags
+   - Results will appear as you type
 
 ### Viewing Recipe Details
 
-1. **Click Recipe**: Click any recipe card to view full details
-2. **Recipe Information**: See complete recipe including:
-   - Full ingredient list
-   - Step-by-step instructions
-   - Cooking time and servings
-   - Tags and author information
-   - Like count and comments
-3. **Recipe Actions**: Like, comment, or share the recipe (if public)
+Click on any recipe card to view the full recipe details:
+
+1. **Recipe Header**
+   - Large hero image
+   - Recipe title and author information
+   - Cook time and serving information
+
+2. **Recipe Actions**
+   - **Like**: Show appreciation for the recipe
+   - **Save**: Bookmark for later (coming soon)
+   - **Share**: Share recipe with others
+
+3. **Recipe Content**
+   - **Description**: Detailed recipe description
+   - **Tags**: Recipe categories and keywords
+   - **Ingredients List**: Complete list of required ingredients
+   - **Instructions**: Step-by-step cooking instructions
+   - **Recipe Information**: Cook time, likes, and author details
+
+## User Dashboard
+
+Access your personal dashboard by clicking "My Recipes" in the navigation.
+
+### Dashboard Overview
+
+The dashboard provides an overview of your recipe collection:
+
+1. **Statistics Cards**
+   - **Total Recipes**: Number of recipes you've created
+   - **Total Likes**: Combined likes across all your recipes
+   - **Public Recipes**: Number of your public recipes
+
+2. **Quick Actions**
+   - **New Recipe**: Create a new recipe
+   - **Edit Recipes**: Modify existing recipes
+   - **Delete Recipes**: Remove recipes from your collection
+
+### Managing Your Recipes
+
+#### Recipe Status
+Each of your recipes shows:
+- **Public/Private Badge**: Visibility status
+- **Edit Button**: Modify recipe details
+- **Delete Button**: Remove recipe permanently
+
+#### Recipe Actions
+- **Edit**: Click the edit icon to modify recipe details
+- **Delete**: Click the delete icon to remove (with confirmation)
+- **View**: Click the recipe card to see the full recipe
+
+## Creating and Editing Recipes
+
+### Creating a New Recipe
+
+1. **Access Recipe Creation**
+   - Click "Add Recipe" in the navigation
+   - Or click "New Recipe" in your dashboard
+
+2. **Basic Information**
+   - **Recipe Title**: Enter a descriptive name
+   - **Cook Time**: Estimated preparation time (e.g., "30 minutes")
+   - **Description**: Brief overview of the recipe (10-1000 characters)
+
+3. **Recipe Image**
+   - **Image URL**: Enter a URL for the recipe image
+   - Recommended size: 400x240 pixels or larger
+   - Supported formats: JPG, PNG, WebP
+
+4. **Ingredients**
+   - Click "Add Ingredient" to add new items
+   - Include measurements (e.g., "2 cups flour")
+   - Use the delete button to remove ingredients
+   - Minimum 1 ingredient required
+
+5. **Instructions**
+   - Click "Add Step" to add cooking instructions
+   - Write clear, step-by-step instructions
+   - Steps are automatically numbered
+   - Use the delete button to remove steps
+
+6. **Tags**
+   - Add relevant tags to categorize your recipe
+   - Type a tag and click "Add" or press Enter
+   - Examples: "vegetarian", "quick", "Italian", "dessert"
+   - Maximum 20 tags per recipe
+
+7. **Privacy Settings**
+   - **Public**: Recipe is visible to all users and searchable
+   - **Private**: Recipe is only visible to you
+
+8. **Saving**
+   - Click "Save Recipe" to create the recipe
+   - Click "Cancel" to discard changes
+
+### Editing Existing Recipes
+
+1. **Access Edit Mode**
+   - From your dashboard, click the edit icon on any recipe
+   - Or use the URL: `/create?edit=RECIPE_ID`
+
+2. **Making Changes**
+   - All fields are pre-populated with existing data
+   - Make your desired changes
+   - Click "Save Recipe" to update
+
+3. **Important Notes**
+   - Only you can edit your own recipes
+   - Changes are saved immediately
+   - Recipe URLs remain the same after editing
+
+## Search and Discovery
+
+### Using the Search Feature
+
+1. **Search Bar Location**
+   - Available in the top navigation
+   - Visible on all pages when logged in
+
+2. **Search Functionality**
+   - **Recipe Titles**: Find recipes by name
+   - **Ingredients**: Search for recipes containing specific ingredients
+   - **Tags**: Find recipes with specific tags
+   - **Descriptions**: Search within recipe descriptions
+
+3. **Search Results**
+   - Results appear on a dedicated search page
+   - Shows number of results found
+   - Same filtering and sorting options as homepage
+
+### Advanced Discovery
+
+1. **Category Filtering**
+   - Use category buttons to filter by meal type
+   - Combine with search for more specific results
+
+2. **Social Discovery**
+   - Browse recipes from specific authors
+   - Check out trending recipes (most liked)
+   - Discover new recipes through likes and shares
+
+## User Profile and Settings
+
+### Profile Information
+
+Your profile includes:
+- **Username**: Display name for recipes
+- **Email**: Account email address
+- **Member Since**: Account creation date
+- **Recipe Count**: Total number of recipes created
+
+### Account Management
+
+1. **Changing Password**
+   - Currently managed through the login system
+   - Password reset functionality (coming soon)
+
+2. **Account Deletion**
+   - Contact support for account deletion
+   - All recipes and data will be permanently removed
 
 ## Social Features
 
 ### Liking Recipes
 
-1. **Public Recipes Only**: You can only like public recipes
-2. **Like Button**: Click the heart icon or "Like" button on recipe pages
-3. **Unlike**: Click again to unlike a recipe
-4. **Real-time Updates**: Like counts update instantly for all users
+1. **How to Like**
+   - Click the heart icon on any recipe card
+   - Or use the "Like" button on recipe detail pages
+   - Requires authentication
 
-### Commenting on Recipes
+2. **Like Benefits**
+   - Shows appreciation to recipe creators
+   - Helps identify popular recipes
+   - Influences recipe ranking and visibility
 
-1. **Recipe Comments**: Scroll to the comments section on any public recipe
-2. **Add Comment**: Type your comment in the text box
-3. **Post Comment**: Click "Post" to publish your comment
-4. **Real-time Comments**: Comments appear instantly for all users viewing the recipe
-5. **Typing Indicators**: See when other users are typing comments
+### Sharing Recipes
 
-### Following Recipe Activity
+1. **Share Options**
+   - Click the "Share" button on recipe detail pages
+   - Copy the recipe URL to share
+   - Social media sharing (coming soon)
 
-1. **Real-time Updates**: See new comments and likes as they happen
-2. **Recipe Notifications**: Get visual feedback when interacting with recipes
-3. **Community Engagement**: Participate in recipe discussions
-
-## Advanced Features
-
-### Recipe Tags
-
-- **Adding Tags**: Use descriptive tags like "dinner", "vegetarian", "quick", "italian"
-- **Tag Benefits**: Tags help others discover your recipes through search
-- **Tag Suggestions**: Consider dietary restrictions, meal types, cuisines, and cooking methods
-
-### Recipe Organization
-
-- **Dashboard Overview**: See all your recipes in one place
-- **Recipe Statistics**: Track your total recipes, public recipes, and likes received
-- **Privacy Management**: Easily see which recipes are public or private
-
-### Real-time Features
-
-- **Live Comments**: See comments appear instantly without refreshing
-- **Live Likes**: Like counts update in real-time
-- **Typing Indicators**: Know when others are commenting
-- **Automatic Updates**: No need to refresh pages for new content
+2. **Recipe Attribution**
+   - All recipes show the original author
+   - Author information is preserved when sharing
 
 ## Mobile Experience
 
 ### Responsive Design
 
-- **Mobile Optimized**: TasteBase works great on phones and tablets
-- **Touch-Friendly**: All buttons and forms are optimized for touch
-- **Mobile Navigation**: Collapsible menu for easy navigation
-- **Mobile Search**: Full search functionality on mobile devices
+TasteBase is fully responsive and works on:
+- **Desktop**: Full-featured experience
+- **Tablet**: Optimized layout for medium screens
+- **Mobile**: Touch-friendly interface for phones
 
 ### Mobile Features
 
-- **Full Functionality**: All desktop features available on mobile
-- **Optimized Layout**: Recipe cards and forms adapt to screen size
-- **Touch Gestures**: Smooth scrolling and touch interactions
+1. **Touch-Friendly Interface**
+   - Large tap targets for easy navigation
+   - Swipe gestures for recipe browsing
+   - Optimized forms for mobile input
+
+2. **Offline Capability**
+   - View previously loaded recipes offline
+   - Save recipes to device storage (coming soon)
+
+## Tips and Best Practices
+
+### Creating Great Recipes
+
+1. **Recipe Titles**
+   - Use descriptive, searchable titles
+   - Include key ingredients or cooking method
+   - Example: "Creamy Garlic Parmesan Pasta"
+
+2. **Ingredients Lists**
+   - Include exact measurements
+   - List ingredients in order of use
+   - Specify preparation (e.g., "diced", "chopped")
+
+3. **Instructions**
+   - Write clear, step-by-step instructions
+   - Include timing and temperature information
+   - Mention visual cues (e.g., "until golden brown")
+
+4. **Tags**
+   - Use relevant, searchable tags
+   - Include dietary restrictions (vegetarian, gluten-free)
+   - Add cuisine type (Italian, Mexican, Asian)
+   - Include cooking method (baked, grilled, no-cook)
+
+### Recipe Photography
+
+1. **Image Quality**
+   - Use high-resolution images (minimum 400x240px)
+   - Ensure good lighting and composition
+   - Show the finished dish clearly
+
+2. **Image Sources**
+   - Use your own photos when possible
+   - Ensure you have rights to use any images
+   - Consider using stock photo sites with proper licensing
+
+### Organizing Your Recipes
+
+1. **Consistent Tagging**
+   - Use consistent tag naming
+   - Create a personal tagging system
+   - Include difficulty level tags
+
+2. **Recipe Categories**
+   - Use privacy settings to organize recipes
+   - Create collections through tagging
+   - Plan meals using your recipe collection
 
 ## Troubleshooting
 
 ### Common Issues
 
-#### Login Problems
-- **Forgot Password**: Contact support for password reset assistance
-- **Account Locked**: Wait a few minutes if you've exceeded login attempts
-- **Invalid Credentials**: Double-check your email and password
+1. **Login Problems**
+   - Check email and password spelling
+   - Ensure caps lock is off
+   - Try refreshing the page
 
-#### Recipe Creation Issues
-- **Validation Errors**: Ensure all required fields are filled correctly
-- **Image Problems**: Verify image URLs are valid and accessible
-- **Save Failures**: Check your internet connection and try again
+2. **Recipe Not Saving**
+   - Check internet connection
+   - Ensure all required fields are filled
+   - Try refreshing and re-entering data
 
-#### Search Problems
-- **No Results**: Try different search terms or check spelling
-- **Slow Search**: Be patient with searches, especially on slower connections
-- **Limited Results**: Search is currently limited to titles, descriptions, and tags
+3. **Images Not Loading**
+   - Verify image URL is correct and accessible
+   - Check if the image source allows hotlinking
+   - Try using a different image hosting service
 
-#### Real-time Features
-- **Comments Not Updating**: Refresh the page if real-time updates stop working
-- **Like Counts Wrong**: Refresh the page to get the latest counts
-- **Typing Indicators**: These may not work if your connection is unstable
+4. **Search Not Working**
+   - Check spelling of search terms
+   - Try different keywords
+   - Clear browser cache and cookies
 
 ### Getting Help
 
-#### Contact Support
-- **Email**: Contact our support team for technical issues
-- **Bug Reports**: Report any bugs or issues you encounter
-- **Feature Requests**: Suggest new features or improvements
+1. **Contact Support**
+   - Email: support@tastebase.com
+   - Response time: 24-48 hours
+   - Include your username and description of the issue
 
-#### Community Help
-- **User Forums**: Connect with other TasteBase users
-- **Recipe Tips**: Share and learn cooking tips from the community
-- **Feedback**: Your feedback helps improve TasteBase
+2. **Community Help**
+   - GitHub Issues: Report bugs and request features
+   - User forums: Get help from other users (coming soon)
 
-## Tips for Success
-
-### Creating Great Recipes
-
-1. **Clear Instructions**: Write step-by-step instructions that are easy to follow
-2. **Accurate Measurements**: Include specific measurements for ingredients
-3. **Helpful Tags**: Use relevant tags to help others find your recipes
-4. **Good Images**: Include appetizing photos of your finished dishes
-5. **Detailed Descriptions**: Write engaging descriptions that make people want to try your recipe
-
-### Building Your Collection
-
-1. **Start Small**: Begin with a few of your favorite recipes
-2. **Regular Updates**: Add new recipes regularly to build your collection
-3. **Organize with Tags**: Use consistent tagging to organize your recipes
-4. **Share Selectively**: Choose which recipes to make public based on your comfort level
-5. **Engage with Community**: Like and comment on others' recipes to build connections
-
-### Making the Most of TasteBase
-
-1. **Explore Regularly**: Check the homepage for new recipes from the community
-2. **Use Search**: Take advantage of the search feature to find specific recipes
-3. **Try New Things**: Don't be afraid to try recipes from other users
-4. **Share Your Favorites**: Make your best recipes public to share with others
-5. **Stay Active**: Regular use helps you discover new recipes and connect with other food enthusiasts
+3. **Documentation**
+   - API Documentation: For developers
+   - User Guide: This document
+   - FAQ: Frequently asked questions (coming soon)
 
 ## Privacy and Security
 
-### Your Data
-- **Account Security**: Keep your password secure and don't share it
-- **Recipe Privacy**: You control whether your recipes are public or private
-- **Profile Information**: Only basic profile information is visible to other users
+### Data Protection
 
-### Best Practices
-- **Strong Passwords**: Use a unique, strong password for your account
-- **Regular Updates**: Keep your recipes and profile information up to date
-- **Safe Browsing**: Be cautious when clicking on external links in comments
-- **Report Issues**: Report any suspicious activity or inappropriate content
+1. **Personal Information**
+   - We only collect necessary information
+   - Passwords are securely hashed
+   - Email addresses are not shared
 
-Welcome to TasteBase! We hope this guide helps you make the most of your recipe sharing experience. Happy cooking! 🍳
+2. **Recipe Privacy**
+   - You control recipe visibility
+   - Private recipes are only visible to you
+   - Public recipes are searchable by all users
+
+### Security Features
+
+1. **Authentication**
+   - Secure JWT token authentication
+   - Session management
+   - Automatic logout after inactivity
+
+2. **Data Security**
+   - HTTPS encryption for all communications
+   - Secure password storage
+   - Regular security updates
+
+## Future Features
+
+### Upcoming Enhancements
+
+1. **Advanced Features**
+   - Recipe collections and meal planning
+   - Nutritional information calculator
+   - Recipe scaling and serving adjustments
+   - Print-friendly recipe formats
+
+2. **Social Features**
+   - User profiles and following
+   - Recipe comments and reviews
+   - Recipe sharing and collaborations
+   - Community challenges and contests
+
+3. **Mobile App**
+   - Native iOS and Android apps
+   - Offline recipe access
+   - Camera integration for photos
+   - Push notifications
+
+### Feedback and Suggestions
+
+We value your feedback! Please share your suggestions for:
+- New features you'd like to see
+- Improvements to existing functionality
+- User experience enhancements
+- Bug reports and issues
+
+Contact us at: feedback@tastebase.com
+
+## Conclusion
+
+Thank you for using TasteBase! We're excited to be part of your culinary journey. Whether you're sharing family recipes, discovering new dishes, or building your personal recipe collection, TasteBase is here to help you organize and share your love of cooking.
+
+Happy cooking! 🍳✨
+
+---
+
+*Last updated: February 2024*
+*Version: 1.0.0*
