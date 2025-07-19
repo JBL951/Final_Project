@@ -1,5 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRoute } from "wouter";
+import { CommentSection } from "@/components/CommentSection";
+import { useSocket } from "@/hooks/useSocket";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +16,7 @@ export default function RecipeDetail() {
   const recipeId = params?.id;
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const socket = useSocket();
 
   // Fetch recipe details
   const { data: recipe, isLoading } = useQuery<RecipeWithAuthor>({
@@ -57,6 +60,34 @@ export default function RecipeDetail() {
       });
     },
   });
+
+  // Socket.IO real-time like updates
+  useEffect(() => {
+    if (!socket.isSocketConnected() || !recipeId) return;
+
+    socket.joinRecipe(recipeId);
+
+    const handleLikeUpdate = ({ likes }: { likes: number }) => {
+      queryClient.setQueryData(["/api/recipes", recipeId], (old: any) => {
+        if (old) {
+          return { ...old, likes };
+        }
+        return old;
+      });
+    };
+
+    const socketInstance = socket.getSocket();
+    if (socketInstance) {
+      socketInstance.on('like-updated', handleLikeUpdate);
+    }
+
+    return () => {
+      socket.leaveRecipe(recipeId);
+      if (socketInstance) {
+        socketInstance.off('like-updated', handleLikeUpdate);
+      }
+    };
+  }, [socket, recipeId, queryClient]);
 
   const handleLike = () => {
     likeMutation.mutate();
@@ -247,6 +278,9 @@ export default function RecipeDetail() {
                 </div>
               </div>
             </div>
+
+            {/* Comments Section */}
+            <CommentSection recipeId={recipeId} />
           </CardContent>
         </Card>
       </div>

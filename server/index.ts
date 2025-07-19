@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import connectDB from "./config/database";
+import { setupSocket } from "./socket";
 
 const app = express();
 app.use(express.json());
@@ -61,6 +62,12 @@ app.use((req, res, next) => {
 
   const server = await registerRoutes(app);
 
+  // Setup Socket.IO for real-time features
+  const io = setupSocket(server);
+  
+  // Make io available to routes if needed
+  app.set('io', io);
+
   // Global error handler
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
@@ -81,11 +88,12 @@ app.use((req, res, next) => {
   const port = parseInt(process.env.PORT || '5000', 10);
   server.listen({
     port,
-    host: "0.0.0.0",
+    host: process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost',
     reusePort: true,
   }, () => {
     log(`🚀 TasteBase server running on port ${port}`);
     log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
     log(`📊 API endpoints available at http://localhost:${port}/api`);
+    log(`🔌 Socket.IO server ready for real-time features`);
   });
 })();

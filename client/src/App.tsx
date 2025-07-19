@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navigation } from "@/components/Navigation";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/hooks/useAuth";
+import { useSocket } from "@/hooks/useSocket";
 import Home from "@/pages/Home";
 import Dashboard from "@/pages/Dashboard";
 import CreateRecipe from "@/pages/CreateRecipe";
@@ -15,6 +16,9 @@ import NotFound from "@/pages/not-found";
 
 function AppContent() {
   const { isAuthenticated } = useAuth();
+  
+  // Initialize Socket.IO connection
+  useSocket();
 
   return (
     <div className="min-h-screen bg-gray-50">

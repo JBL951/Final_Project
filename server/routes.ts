@@ -8,8 +8,10 @@ import {
   insertUserSchema, 
   loginSchema, 
   insertRecipeSchema, 
-  updateRecipeSchema 
+  updateRecipeSchema,
+  insertCommentSchema
 } from "@shared/schema";
+import Comment from "./models/Comment";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const storage = getStorage();
@@ -212,6 +214,75 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Comment routes
+  app.get("/api/recipes/:id/comments", async (req, res) => {
+    try {
+      const recipeId = req.params.id;
+      
+      const comments = await Comment.find({ recipeId })
+        .populate('authorId', 'username')
+        .sort({ createdAt: -1 });
+
+      const commentsWithAuthors = comments.map(comment => {
+        const populatedComment = comment as any;
+        return {
+          id: comment.id,
+          text: comment.text,
+          recipeId: comment.recipeId,
+          authorId: comment.authorId,
+          createdAt: comment.createdAt,
+          author: {
+            id: populatedComment.authorId._id.toString(),
+            username: populatedComment.authorId.username,
+          },
+        };
+      });
+
+      res.json(commentsWithAuthors);
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
+  app.post("/api/recipes/:id/comments", authenticateToken, async (req: AuthenticatedRequest, res) => {
+    try {
+      const recipeId = req.params.id;
+      const commentData = insertCommentSchema.parse(req.body);
+      
+      const comment = new Comment({
+        ...commentData,
+        recipeId,
+        authorId: req.user!.userId,
+      });
+
+      const savedComment = await comment.save();
+      await savedComment.populate('authorId', 'username');
+
+      const populatedComment = savedComment as any;
+      const commentWithAuthor = {
+        id: savedComment.id,
+        text: savedComment.text,
+        recipeId: savedComment.recipeId,
+        authorId: savedComment.authorId,
+        createdAt: savedComment.createdAt,
+        author: {
+          id: populatedComment.authorId._id.toString(),
+          username: populatedComment.authorId.username,
+        },
+      };
+
+      // Emit real-time update
+      const io = app.get('io');
+      if (io) {
+        io.to(`recipe-${recipeId}`).emit('comment-added', commentWithAuthor);
+      }
+
+      res.status(201).json(commentWithAuthor);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid comment data" });
+    }
+  });
+
   app.post("/api/recipes/:id/like", authenticateToken, async (req: AuthenticatedRequest, res) => {
     try {
       const id = parseInt(req.params.id);
@@ -219,6 +290,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       if (!recipe) {
         return res.status(404).json({ message: "Recipe not found" });
+      }
+
+      // Emit real-time like update
+      const io = app.get('io');
+      if (io) {
+        io.to(`recipe-${id}`).emit('like-updated', {
+          recipeId: id,
+          likes: recipe.likes,
+          likedBy: {
+            id: req.user!.userId,
+            username: req.user!.username,
+          },
+        });
       }
 
       res.json(recipe);
