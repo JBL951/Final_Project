@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import bcrypt from "bcrypt";
-import { getStorage } from "./storage";
+import { storage } from "./storage";
 import { authenticateToken, type AuthenticatedRequest } from "./middleware/auth";
 import { generateToken } from "./utils/jwt";
 import { 
@@ -14,7 +14,7 @@ import {
 import Comment from "./models/Comment";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  const storage = getStorage();
+  // Use the imported storage instance directly
 
   // Auth routes
   app.post("/api/auth/register", async (req, res) => {
