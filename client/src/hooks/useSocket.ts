@@ -1,22 +1,36 @@
-import { useEffect, useRef } from 'react';
-import { socketService } from '@/lib/socket';
-import { useAuth } from './useAuth';
+import { useEffect, useState } from "react";
+import { socketService } from "@/lib/socket";
+import type { Socket } from "socket.io-client";
 
 export function useSocket() {
-  const { isAuthenticated } = useAuth();
-  const socketRef = useRef(socketService);
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      socketRef.current.connect();
-    } else {
-      socketRef.current.disconnect();
-    }
+    const socketInstance = socketService.connect();
+    setSocket(socketInstance);
 
+    const handleConnect = () => setIsConnected(true);
+    const handleDisconnect = () => setIsConnected(false);
+
+    socketInstance.on("connect", handleConnect);
+    socketInstance.on("disconnect", handleDisconnect);
+
+    // Cleanup on unmount
     return () => {
-      socketRef.current.disconnect();
+      socketInstance.off("connect", handleConnect);
+      socketInstance.off("disconnect", handleDisconnect);
     };
-  }, [isAuthenticated]);
+  }, []);
 
-  return socketService;
+  return {
+    socket,
+    isConnected,
+    joinRecipe: (recipeId: number) => socketService.joinRecipe(recipeId),
+    leaveRecipe: (recipeId: number) => socketService.leaveRecipe(recipeId),
+    notifyRecipeLiked: (recipeId: number, likes: number) => 
+      socketService.notifyRecipeLiked(recipeId, likes),
+    notifyNewRecipe: (recipeData: any) => 
+      socketService.notifyNewRecipe(recipeData),
+  };
 }
