@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSocket } from "@/hooks/useSocket";
 import { Link } from "wouter";
 import { RecipeCard } from "@/components/RecipeCard";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ export default function Home({ searchQuery }: HomeProps) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState("latest");
   const queryClient = useQueryClient();
+  const { socket, notifyRecipeLiked } = useSocket();
 
   const categories = ["All", "Breakfast", "Lunch", "Dinner", "Dessert", "Vegetarian"];
 
@@ -79,6 +81,34 @@ export default function Home({ searchQuery }: HomeProps) {
   const handleLike = (recipeId: number) => {
     likeMutation.mutate(recipeId);
   };
+
+  // Real-time updates using Socket.io
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleRecipeFeedUpdate = (data: any) => {
+      queryClient.setQueryData(["/api/recipes/public"], (oldData: RecipeWithAuthor[] | undefined) => {
+        if (!oldData) return oldData;
+        return oldData.map(recipe => 
+          recipe.id === data.recipeId 
+            ? { ...recipe, likes: data.likes }
+            : recipe
+        );
+      });
+    };
+
+    const handleNewRecipeAvailable = (recipeData: any) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/recipes/public"] });
+    };
+
+    socket.on("recipe_feed_update", handleRecipeFeedUpdate);
+    socket.on("new_recipe_available", handleNewRecipeAvailable);
+
+    return () => {
+      socket.off("recipe_feed_update", handleRecipeFeedUpdate);
+      socket.off("new_recipe_available", handleNewRecipeAvailable);
+    };
+  }, [socket, queryClient]);
 
   if (isLoading) {
     return (

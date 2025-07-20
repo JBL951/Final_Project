@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSocket } from "@/hooks/useSocket";
 import { useLocation } from "wouter";
 import { RecipeForm } from "@/components/RecipeForm";
 import { authService } from "@/lib/auth";
@@ -11,6 +12,7 @@ export default function CreateRecipe() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const [location, navigate] = useLocation();
+  const { notifyNewRecipe } = useSocket();
   
   // Get edit ID from URL params
   const urlParams = new URLSearchParams(location.split('?')[1]);
@@ -54,9 +56,15 @@ export default function CreateRecipe() {
       if (!response.ok) throw new Error("Failed to create recipe");
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/recipes/my"] });
       queryClient.invalidateQueries({ queryKey: ["/api/recipes/public"] });
+      
+      // Notify other users about new recipe via Socket.io
+      if (data.isPublic) {
+        notifyNewRecipe(data);
+      }
+      
       toast({
         title: "Recipe created!",
         description: "Your recipe has been successfully created.",
