@@ -1,6 +1,6 @@
 # 🏆 Week 8: Capstone Project and Presentation – Bringing Your MERN Skills Together
 
-## 🚀 Objective
+## Objective
 Design, develop, and deploy a comprehensive full-stack MERN application that showcases all the skills you've learned throughout the course, including database design, RESTful API development, real-time features, testing, and deployment.
 
 ## 📂 Tasks
@@ -48,7 +48,7 @@ Design, develop, and deploy a comprehensive full-stack MERN application that sho
   - Technical architecture overview
 - Prepare a presentation showcasing your application
 
-## 🧪 Expected Outcome
+## Expected Outcome
 - A fully functional, deployed MERN stack application
 - Source code in a GitHub repository with proper documentation
 - Comprehensive test suite with good coverage
