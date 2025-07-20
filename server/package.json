@@ -1,0 +1,35 @@
+{
+  "name": "tastebase-server",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "migrate": "ts-node-dev --transpile-only scripts/migrate-to-mongodb.ts",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/node": "^20.4.5",
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
+    "mongodb": "^5.7.0",
+    "socket.io": "^4.7.1",
+    "typescript": "^5.1.6",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.3",
+    "@types/supertest": "^2.0.12",
+    "jest": "^29.6.2",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1",
+    "ts-node-dev": "^2.0.0"
+  }
+}
