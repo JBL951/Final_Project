@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import { Server as SocketIOServer } from "socket.io";
 import bcrypt from "bcrypt";
 import { storage } from "./storage";
 import { authenticateToken, type AuthenticatedRequest } from "./middleware/auth";
@@ -8,14 +9,10 @@ import {
   insertUserSchema, 
   loginSchema, 
   insertRecipeSchema, 
-  updateRecipeSchema,
-  insertCommentSchema
+  updateRecipeSchema 
 } from "@shared/schema";
-import Comment from "./models/Comment";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Use the imported storage instance directly
-
   // Auth routes
   app.post("/api/auth/register", async (req, res) => {
     try {
@@ -214,75 +211,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Comment routes
-  app.get("/api/recipes/:id/comments", async (req, res) => {
-    try {
-      const recipeId = req.params.id;
-      
-      const comments = await Comment.find({ recipeId })
-        .populate('authorId', 'username')
-        .sort({ createdAt: -1 });
-
-      const commentsWithAuthors = comments.map(comment => {
-        const populatedComment = comment as any;
-        return {
-          id: comment.id,
-          text: comment.text,
-          recipeId: comment.recipeId,
-          authorId: comment.authorId,
-          createdAt: comment.createdAt,
-          author: {
-            id: populatedComment.authorId._id.toString(),
-            username: populatedComment.authorId.username,
-          },
-        };
-      });
-
-      res.json(commentsWithAuthors);
-    } catch (error) {
-      res.status(500).json({ message: "Server error" });
-    }
-  });
-
-  app.post("/api/recipes/:id/comments", authenticateToken, async (req: AuthenticatedRequest, res) => {
-    try {
-      const recipeId = req.params.id;
-      const commentData = insertCommentSchema.parse(req.body);
-      
-      const comment = new Comment({
-        ...commentData,
-        recipeId,
-        authorId: req.user!.userId,
-      });
-
-      const savedComment = await comment.save();
-      await savedComment.populate('authorId', 'username');
-
-      const populatedComment = savedComment as any;
-      const commentWithAuthor = {
-        id: savedComment.id,
-        text: savedComment.text,
-        recipeId: savedComment.recipeId,
-        authorId: savedComment.authorId,
-        createdAt: savedComment.createdAt,
-        author: {
-          id: populatedComment.authorId._id.toString(),
-          username: populatedComment.authorId.username,
-        },
-      };
-
-      // Emit real-time update
-      const io = app.get('io');
-      if (io) {
-        io.to(`recipe-${recipeId}`).emit('comment-added', commentWithAuthor);
-      }
-
-      res.status(201).json(commentWithAuthor);
-    } catch (error) {
-      res.status(400).json({ message: "Invalid comment data" });
-    }
-  });
-
   app.post("/api/recipes/:id/like", authenticateToken, async (req: AuthenticatedRequest, res) => {
     try {
       const id = parseInt(req.params.id);
@@ -292,19 +220,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Recipe not found" });
       }
 
-      // Emit real-time like update
-      const io = app.get('io');
-      if (io) {
-        io.to(`recipe-${id}`).emit('like-updated', {
-          recipeId: id,
-          likes: recipe.likes,
-          likedBy: {
-            id: req.user!.userId,
-            username: req.user!.username,
-          },
-        });
-      }
-
       res.json(recipe);
     } catch (error) {
       res.status(500).json({ message: "Server error" });
@@ -312,5 +227,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const httpServer = createServer(app);
+  
+  // Setup Socket.IO for real-time features
+  const io = new SocketIOServer(httpServer, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"]
+    }
+  });
+
+  // Socket.IO connection handling
+  io.on("connection", (socket) => {
+    console.log("User connected:", socket.id);
+
+    socket.on("join_recipe", (recipeId) => {
+      socket.join(`recipe_${recipeId}`);
+      console.log(`User ${socket.id} joined recipe ${recipeId}`);
+    });
+
+    socket.on("leave_recipe", (recipeId) => {
+      socket.leave(`recipe_${recipeId}`);
+      console.log(`User ${socket.id} left recipe ${recipeId}`);
+    });
+
+    socket.on("recipe_liked", (data) => {
+      // Broadcast recipe like update to all users viewing the recipe
+      socket.to(`recipe_${data.recipeId}`).emit("recipe_updated", {
+        recipeId: data.recipeId,
+        likes: data.likes,
+        type: "like"
+      });
+      
+      // Broadcast to general recipe feed
+      socket.broadcast.emit("recipe_feed_update", {
+        recipeId: data.recipeId,
+        likes: data.likes,
+        type: "like"
+      });
+    });
+
+    socket.on("new_recipe_created", (recipeData) => {
+      // Broadcast new recipe to all connected users
+      if (recipeData.isPublic) {
+        socket.broadcast.emit("new_recipe_available", recipeData);
+      }
+    });
+
+    socket.on("disconnect", () => {
+      console.log("User disconnected:", socket.id);
+    });
+  });
+
   return httpServer;
 }

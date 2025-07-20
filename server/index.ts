@@ -1,8 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import connectDB from "./config/database";
-import { setupSocket } from "./socket";
 
 const app = express();
 app.use(express.json());
@@ -53,20 +51,7 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Connect to MongoDB if DATABASE_URL is provided
-  if (process.env.DATABASE_URL || process.env.MONGODB_URI) {
-    await connectDB();
-  } else {
-    log('Using in-memory storage (no DATABASE_URL provided)');
-  }
-
   const server = await registerRoutes(app);
-
-  // Setup Socket.IO for real-time features
-  const io = setupSocket(server);
-  
-  // Make io available to routes if needed
-  app.set('io', io);
 
   // Global error handler
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -88,12 +73,11 @@ app.use((req, res, next) => {
   const port = parseInt(process.env.PORT || '5000', 10);
   server.listen({
     port,
-    host: process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost',
+    host: "0.0.0.0",
     reusePort: true,
   }, () => {
-    log(`🚀 TasteBase server running on port ${port}`);
-    log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
-    log(`📊 API endpoints available at http://localhost:${port}/api`);
-    log(`🔌 Socket.IO server ready for real-time features`);
+    log(`TasteBase server running on port ${port}`);
+    log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    log(`API endpoints available at http://localhost:${port}/api`);
   });
 })();
