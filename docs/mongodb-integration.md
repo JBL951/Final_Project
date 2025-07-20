@@ -1,44 +1,92 @@
 # MongoDB Integration Guide for TasteBase
 
-This document provides comprehensive instructions for integrating MongoDB with the TasteBase application, replacing the current in-memory storage system.
+This document provides comprehensive instructions for using MongoDB with the TasteBase application. MongoDB is now the primary database backend for TasteBase.
 
 ## Overview
 
-TasteBase is currently built with a flexible storage interface that allows easy switching between storage backends. This guide details the steps to integrate MongoDB while maintaining all existing functionality.
+TasteBase uses MongoDB as its primary database, providing robust and scalable data storage for recipes, users, and related data. The integration is complete and fully functional.
+
+## Current Status
+
+✅ MongoDB Integration is complete and active
+✅ Data models are properly mapped to MongoDB collections
+✅ Indexes are created for optimal query performance
+✅ Migration tools are available for data import
 
 ## Prerequisites
 
-Before starting the MongoDB integration:
+Before running the application:
 
 1. **MongoDB Database**: Set up a MongoDB database (local MongoDB, MongoDB Atlas, or other hosting solution)
 2. **MongoDB Connection String**: Obtain the connection URI for your database
 3. **Environment Configuration**: Ensure your deployment environment supports Node.js and MongoDB connections
 
-## Integration Steps
+## Database Structure
 
-### 1. Install MongoDB Dependencies
+The application uses the following MongoDB collections:
 
-The project already includes the necessary MongoDB dependencies. If additional packages are needed:
+### Users Collection
+- Indexed fields: `email` (unique), `username` (unique)
+- Schema includes: id, username, email, hashedPassword, createdAt
 
-```bash
-npm install mongodb @types/mongodb
+### Recipes Collection
+- Indexed fields: `authorId`, `isPublic`, text indexes on `title`, `description`, `ingredients`, and `tags`
+- Schema includes: id, title, description, ingredients, instructions, authorId, imageUrl, tags, likes, createdAt
+
+## Performance Optimizations
+
+The following indexes are automatically created during initialization:
+
+```javascript
+// Users Collection
+{ email: 1 }           // Unique index for email lookups
+{ username: 1 }        // Unique index for username lookups
+
+// Recipes Collection
+{ authorId: 1 }        // For fetching user's recipes
+{ isPublic: 1 }        // For public recipe filtering
+{ title: 'text', description: 'text', ingredients: 'text', tags: 'text' }  // Full-text search
 ```
 
-### 2. Environment Configuration
+## Data Migration
 
-Set the following environment variables:
+The application includes a migration script to populate the database with initial data:
 
-```env
-# MongoDB connection string
-MONGODB_URI=mongodb://localhost:27017/tastebase
-# or for MongoDB Atlas:
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/tastebase
+```bash
+# From the server directory
+npm run migrate
+```
 
-# JWT secret for authentication
-JWT_SECRET=your-secret-key-here
+This will:
+1. Create necessary collections and indexes
+2. Import mock users and recipes
+3. Set up proper relationships between data
 
-# Node environment
-NODE_ENV=production
+## Troubleshooting
+
+### Common Issues
+
+1. **Connection Errors**
+   - Verify your MongoDB connection string in the `.env` file
+   - Check if MongoDB Atlas IP whitelist includes your server's IP
+   - Ensure proper credentials in the connection string
+
+2. **Migration Issues**
+   - Run `npm run migrate` from the server directory
+   - Check if the database already contains data (migration is idempotent)
+   - Verify environment variables are properly loaded
+
+3. **Performance Issues**
+   - Check if indexes are properly created
+   - Monitor query performance using MongoDB Compass
+   - Review database logs for slow queries
+
+### Monitoring
+
+You can monitor your MongoDB deployment using:
+- MongoDB Compass for visual database management
+- MongoDB Atlas dashboard for cloud deployments
+- Server logs for query performance and errors
 ```
 
 ### 3. Create MongoDB Storage Implementation

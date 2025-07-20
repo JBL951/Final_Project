@@ -9,6 +9,7 @@
 [![React](https://img.shields.io/badge/React-18-blue?logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Express](https://img.shields.io/badge/Express-4.21-green?logo=express)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-6.0-green?logo=mongodb)](https://www.mongodb.com/)
 [![Socket.io](https://img.shields.io/badge/Socket.io-4.8-black?logo=socket.io)](https://socket.io/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4-cyan?logo=tailwindcss)](https://tailwindcss.com/)
 
@@ -28,6 +29,13 @@
 - Create, edit, and delete recipes
 - Rich recipe forms with validation
 - Image support and tag categorization
+- Full-text search across recipes
+
+### **Database**
+- MongoDB integration for robust data persistence
+- Optimized indexes for fast queries
+- Full-text search capabilities
+- Scalable data storage for users and recipes
 - Privacy settings (public/private)
 - Recipe export functionality (text & print)
 
@@ -70,13 +78,39 @@
    cd tastebase
    ```
 
-2. **Install dependencies**
-   ```bash
-   npm install
+2. **Set up environment variables**
+   Create a `.env` file in the server directory:
+   ```env
+   DATABASE_URL=your_mongodb_connection_string
+   JWT_SECRET=your_secure_jwt_secret
+   NODE_ENV=development
+   PORT=5000
    ```
 
-3. **Start the development server**
+3. **Install dependencies**
    ```bash
+   # Install root dependencies
+   npm install
+   
+   # Install server dependencies
+   cd server && npm install
+   
+   # Install client dependencies
+   cd ../client && npm install
+   ```
+
+4. **Initialize the database**
+   ```bash
+   # From the server directory
+   npm run migrate
+   ```
+
+5. **Start the development servers**
+   ```bash
+   # Start the backend server (from server directory)
+   npm run dev
+
+   # In a new terminal, start the frontend (from client directory)
    npm run dev
    ```
 
