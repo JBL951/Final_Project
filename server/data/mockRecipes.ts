@@ -1,6 +1,6 @@
-import { type Recipe } from "@shared/schema";
+import { type InsertRecipe } from "@shared/schema";
 
-export const mockRecipes: Omit<Recipe, "id">[] = [
+export const mockRecipes: (InsertRecipe & { authorId: number })[] = [
   {
     title: "Creamy Garlic Pasta",
     description: "A rich and creamy pasta dish with roasted garlic and fresh herbs",
@@ -27,9 +27,7 @@ export const mockRecipes: Omit<Recipe, "id">[] = [
     imageUrl: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=240",
     cookTime: "25 mins",
     authorId: 2,
-    isPublic: true,
-    likes: 42,
-    createdAt: new Date("2024-02-10T18:30:00Z"),
+    isPublic: true
   },
   {
     title: "Rainbow Buddha Bowl",
@@ -39,115 +37,106 @@ export const mockRecipes: Omit<Recipe, "id">[] = [
       "2 cups mixed greens",
       "1 avocado, sliced",
       "1 cup cherry tomatoes, halved",
-      "1 cucumber, diced",
-      "1/2 cup shredded carrots",
-      "1/2 cup chickpeas",
-      "1/4 cup hemp seeds",
-      "Tahini dressing"
+      "1 cup shredded carrots",
+      "1 cup purple cabbage, shredded",
+      "1 cup chickpeas, drained and rinsed",
+      "2 tbsp tahini",
+      "1 lemon, juiced",
+      "1 tbsp maple syrup"
     ],
     instructions: [
-      "Cook quinoa according to package directions and let cool",
-      "Wash and prepare all vegetables",
+      "Cook quinoa according to package instructions",
+      "Prepare the dressing by mixing tahini, lemon juice, and maple syrup",
       "Arrange mixed greens in a bowl",
       "Top with cooked quinoa",
-      "Add avocado, tomatoes, cucumber, and carrots",
-      "Sprinkle with chickpeas and hemp seeds",
-      "Drizzle with tahini dressing before serving"
+      "Add sliced avocado, tomatoes, carrots, and cabbage",
+      "Add chickpeas",
+      "Drizzle with tahini dressing"
     ],
-    tags: ["healthy", "vegetarian", "buddha-bowl", "quinoa", "lunch"],
+    tags: ["vegetarian", "healthy", "bowl", "lunch"],
     imageUrl: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=240",
-    cookTime: "15 mins",
+    cookTime: "30 mins",
     authorId: 3,
-    isPublic: true,
-    likes: 38,
-    createdAt: new Date("2024-02-12T12:15:00Z"),
+    isPublic: true
   },
   {
     title: "Chocolate Berry Cake",
-    description: "Decadent chocolate cake topped with fresh seasonal berries",
+    description: "Decadent chocolate cake with fresh mixed berries",
     ingredients: [
       "2 cups all-purpose flour",
-      "3/4 cup cocoa powder",
       "2 cups sugar",
-      "2 tsp baking soda",
-      "1 tsp baking powder",
-      "1 tsp salt",
+      "3/4 cup unsweetened cocoa powder",
       "2 eggs",
-      "1 cup buttermilk",
+      "1 cup milk",
       "1/2 cup vegetable oil",
-      "2 cups mixed berries"
+      "2 tsp vanilla extract",
+      "1 cup mixed berries",
+      "1 cup chocolate frosting"
     ],
     instructions: [
-      "Preheat oven to 350°F and grease two 9-inch round pans",
+      "Preheat oven to 350°F (175°C)",
       "Mix dry ingredients in a large bowl",
-      "In another bowl, whisk together eggs, buttermilk, and oil",
-      "Combine wet and dry ingredients until just mixed",
-      "Divide batter between prepared pans",
-      "Bake for 30-35 minutes until toothpick comes out clean",
-      "Cool completely before frosting and adding berries"
+      "Add wet ingredients and mix until smooth",
+      "Pour batter into greased cake pans",
+      "Bake for 30-35 minutes",
+      "Let cool completely",
+      "Frost and decorate with fresh berries"
     ],
-    tags: ["dessert", "chocolate", "cake", "berries", "sweet"],
+    tags: ["dessert", "chocolate", "cake", "berries"],
     imageUrl: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=240",
     cookTime: "45 mins",
     authorId: 4,
-    isPublic: true,
-    likes: 65,
-    createdAt: new Date("2024-02-14T15:45:00Z"),
+    isPublic: true
   },
   {
     title: "Fresh Caprese Salad",
-    description: "Classic Italian salad with fresh ingredients",
+    description: "Classic Italian salad with ripe tomatoes, fresh mozzarella, and basil",
     ingredients: [
-      "4 large tomatoes, sliced",
-      "1 lb fresh mozzarella, sliced",
-      "1/2 cup fresh basil leaves",
-      "1/4 cup extra virgin olive oil",
-      "2 tbsp balsamic vinegar",
-      "Salt and pepper to taste"
-    ],
-    instructions: [
-      "Arrange tomato and mozzarella slices on a platter",
-      "Tuck basil leaves between the tomato and cheese",
-      "Drizzle with olive oil and balsamic vinegar",
-      "Season with salt and pepper",
-      "Serve immediately at room temperature"
-    ],
-    tags: ["salad", "italian", "fresh", "caprese", "appetizer"],
-    imageUrl: "https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&h=200",
-    cookTime: "10 mins",
-    authorId: 1,
-    isPublic: true,
-    likes: 23,
-    createdAt: new Date("2024-02-16T19:20:00Z"),
-  },
-  {
-    title: "Classic Beef Wellington",
-    description: "Show-stopping centerpiece with beef tenderloin wrapped in puff pastry",
-    ingredients: [
-      "2 lbs beef tenderloin",
-      "1 lb puff pastry",
-      "8 oz prosciutto",
-      "1 lb mushrooms, finely chopped",
-      "2 tbsp Dijon mustard",
-      "1 egg for wash",
-      "2 tbsp olive oil",
+      "4 ripe tomatoes",
+      "1 lb fresh mozzarella",
+      "1 bunch fresh basil",
+      "Extra virgin olive oil",
+      "Balsamic vinegar",
       "Salt and pepper"
     ],
     instructions: [
-      "Season beef with salt and pepper, sear in hot oil until browned",
-      "Brush with mustard and let cool completely",
-      "Sauté mushrooms until moisture evaporates",
-      "Lay prosciutto on plastic wrap, spread mushrooms",
-      "Place beef on top and wrap tightly",
-      "Wrap in puff pastry, seal edges",
-      "Brush with egg wash and bake at 400°F for 25-30 minutes"
+      "Slice tomatoes and mozzarella",
+      "Arrange alternately on a serving plate",
+      "Tuck fresh basil leaves between the slices",
+      "Drizzle with olive oil and balsamic vinegar",
+      "Season with salt and pepper"
     ],
-    tags: ["beef", "wellington", "gourmet", "dinner", "special-occasion"],
-    imageUrl: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400",
-    cookTime: "2 hours 30 minutes",
+    tags: ["salad", "italian", "vegetarian", "quick"],
+    imageUrl: "https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=240",
+    cookTime: "10 mins",
     authorId: 5,
-    isPublic: true,
-    likes: 234,
-    createdAt: new Date("2024-02-18T14:10:00Z"),
+    isPublic: true
   },
+  {
+    title: "Classic Beef Wellington",
+    description: "Elegant dish of beef tenderloin wrapped in mushroom duxelles and puff pastry",
+    ingredients: [
+      "2 lb beef tenderloin",
+      "1 lb mushrooms, finely chopped",
+      "4 slices prosciutto",
+      "2 sheets puff pastry",
+      "2 egg yolks, beaten",
+      "2 tbsp Dijon mustard",
+      "Salt and pepper"
+    ],
+    instructions: [
+      "Sear the beef tenderloin on all sides",
+      "Spread with Dijon mustard and chill",
+      "Cook mushrooms until moisture evaporates",
+      "Wrap beef in mushroom mixture and prosciutto",
+      "Wrap in puff pastry and seal edges",
+      "Brush with egg wash",
+      "Bake at 400°F for 40-45 minutes"
+    ],
+    tags: ["beef", "elegant", "dinner", "special occasion"],
+    imageUrl: "https://images.unsplash.com/photo-1624684363766-4d7a7efc0842?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=240",
+    cookTime: "90 mins",
+    authorId: 1,
+    isPublic: true
+  }
 ];

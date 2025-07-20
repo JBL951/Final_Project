@@ -1,6 +1,7 @@
-import { users, recipes, type User, type InsertUser, type Recipe, type InsertRecipe, type UpdateRecipe, type RecipeWithAuthor } from "@shared/schema";
-import { mockUsers } from "./data/mockUsers";
-import { mockRecipes } from "./data/mockRecipes";
+import { type User, type InsertUser, type Recipe, type InsertRecipe, type UpdateRecipe, type RecipeWithAuthor } from "@shared/schema";
+import { MongoStorage } from './storage/mongodb';
+import { mockUsers } from './data/mockUsers';
+import { mockRecipes } from './data/mockRecipes';
 
 export interface IStorage {
   // User operations
@@ -39,14 +40,23 @@ export class MemStorage implements IStorage {
 
   private initializeMockData() {
     // Add mock users
-    mockUsers.forEach(user => {
-      const userWithId = { ...user, id: this.currentUserId++ };
+    mockUsers.forEach((user: InsertUser) => {
+      const userWithId: User = {
+        ...user,
+        id: this.currentUserId++,
+        createdAt: new Date()
+      };
       this.users.set(userWithId.id, userWithId);
     });
 
     // Add mock recipes
-    mockRecipes.forEach(recipe => {
-      const recipeWithId = { ...recipe, id: this.currentRecipeId++ };
+    mockRecipes.forEach((recipe: InsertRecipe & { authorId: number }) => {
+      const recipeWithId: Recipe = {
+        ...recipe,
+        id: this.currentRecipeId++,
+        likes: 0,
+        createdAt: new Date()
+      };
       this.recipes.set(recipeWithId.id, recipeWithId);
     });
   }
@@ -192,4 +202,18 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+const mongoUri = process.env.DATABASE_URL;
+if (!mongoUri) {
+  throw new Error('DATABASE_URL environment variable is not set');
+}
+
+export const storage = new MongoStorage(mongoUri);
+
+// Initialize connection
+storage.connect().catch(console.error);
+
+// Graceful shutdown
+process.on('SIGINT', async () => {
+  await storage.disconnect();
+  process.exit(0);
+});
