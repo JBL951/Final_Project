@@ -25,29 +25,6 @@ export const recipes = pgTable("recipes", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const comments = pgTable("comments", {
-  id: serial("id").primaryKey(),
-  text: text("text").notNull(),
-  recipeId: integer("recipe_id").notNull(),
-  authorId: integer("author_id").notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
-
-export const insertCommentSchema = createInsertSchema(comments).omit({
-  id: true,
-  authorId: true,
-  createdAt: true,
-});
-
-export type InsertComment = z.infer<typeof insertCommentSchema>;
-export type Comment = typeof comments.$inferSelect;
-
-export interface CommentWithAuthor extends Comment {
-  author: {
-    id: number;
-    username: string;
-  };
-}
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   email: true,
