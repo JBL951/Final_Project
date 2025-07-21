@@ -63,6 +63,9 @@
 ## Login page
 ![Landing page](docs/images/image.png)
 
+## Personal Dashboard
+![Landing page](docs/images/dashboard.png)
+
 ## Quick Start
 
 ### Prerequisites
