@@ -60,6 +60,9 @@
 ## Landing page
 ![Landing page](docs/image.png)
 
+## Login page
+![Landing page](docs/pictures/image.png)
+
 ## Quick Start
 
 ### Prerequisites
