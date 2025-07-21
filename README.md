@@ -12,7 +12,7 @@
 [![Socket.io](https://img.shields.io/badge/Socket.io-4.8-black?logo=socket.io)](https://socket.io/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4-cyan?logo=tailwindcss)](https://tailwindcss.com/)
 
-[Live Demo](https://final-project-wqlc.onrender.com/) • [Documentation](./docs/) • [API Reference](./docs/api-documentation.md)
+[Live Demo](https://final-project-wqlc.onrender.com/) • [Documentation](./docs/) • [API Reference](./docs/api-documentation.md) • [Video Example](https://www.loom.com/share/f28af19429494ad499cd8bd2220ba316?sid=80a3efca-2897-4947-84df-57168d9fb97a)
 
 </div>
 
