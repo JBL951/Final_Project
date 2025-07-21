@@ -1,5 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
+import { storage } from "./storage";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
@@ -11,7 +12,7 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  
+
   if (req.method === "OPTIONS") {
     res.sendStatus(200);
   } else {
@@ -51,6 +52,19 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Wait for storage to be initialized
+  await new Promise(resolve => {
+    const checkStorage = () => {
+      if (storage) {
+        resolve(void 0);
+      } else {
+        setTimeout(checkStorage, 100);
+      }
+    };
+    checkStorage();
+  });
+
+  // Storage is already initialized by the import
   const server = await registerRoutes(app);
 
   // Global error handler

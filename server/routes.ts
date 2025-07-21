@@ -137,6 +137,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/recipes", authenticateToken, async (req: AuthenticatedRequest, res) => {
     try {
+      console.log("Recipe creation request:", {
+        body: req.body,
+        user: req.user,
+        headers: req.headers.authorization ? 'Token present' : 'No token'
+      });
+      
       const recipeData = insertRecipeSchema.parse(req.body);
 
       const recipe = await storage.createRecipe({
@@ -144,15 +150,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
         authorId: req.user!.userId,
       });
 
+      console.log("Recipe created successfully:", recipe.id);
       res.status(201).json(recipe);
     } catch (error) {
-      res.status(400).json({ message: "Invalid recipe data" });
+      console.error("Recipe creation error:", error);
+      if (error instanceof Error) {
+        res.status(400).json({ message: error.message });
+      } else {
+        res.status(400).json({ message: "Invalid recipe data" });
+      }
     }
   });
 
   app.put("/api/recipes/:id", authenticateToken, async (req: AuthenticatedRequest, res) => {
     try {
       const id = parseInt(req.params.id);
+      console.log("Recipe update request:", {
+        recipeId: id,
+        body: req.body,
+        user: req.user
+      });
+      
       const updateData = updateRecipeSchema.parse(req.body);
 
       // Check if recipe exists and belongs to user
@@ -166,9 +184,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const updatedRecipe = await storage.updateRecipe(id, updateData);
+      console.log("Recipe updated successfully:", updatedRecipe?.id);
       res.json(updatedRecipe);
     } catch (error) {
-      res.status(400).json({ message: "Invalid recipe data" });
+      console.error("Recipe update error:", error);
+      if (error instanceof Error) {
+        res.status(400).json({ message: error.message });
+      } else {
+        res.status(400).json({ message: "Invalid recipe data" });
+      }
     }
   });
 

@@ -2,7 +2,7 @@ import { users, recipes, type User, type InsertUser, type Recipe, type InsertRec
 import { mockUsers } from "./data/mockUsers";
 import { mockRecipes } from "./data/mockRecipes";
 import { MongoStorage } from './storage/mongodb';
-import { MemStorage } from './storage/memstorage';
+import { InMemoryStorage } from './storage/inMemory';
 
 export interface IStorage {
   // User operations
@@ -24,6 +24,13 @@ export interface IStorage {
 }
 
 export class MemStorage implements IStorage {
+  async connect() {
+    console.log('✅ In-memory storage connected');
+  }
+
+  async disconnect() {
+    console.log('📡 In-memory storage disconnected');
+  }
   private users: Map<number, User>;
   private recipes: Map<number, Recipe>;
   private currentUserId: number;
@@ -51,6 +58,7 @@ export class MemStorage implements IStorage {
       const recipeWithId = { ...recipe, id: this.currentRecipeId++ };
       this.recipes.set(recipeWithId.id, recipeWithId);
     });
+    console.log(`📚 Loaded ${mockUsers.length} mock users and ${mockRecipes.length} mock recipes`);
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -195,17 +203,10 @@ export class MemStorage implements IStorage {
 }
 
 // MongoDB configuration
-const mongoUri = process.env.MONGODB_URI;
+const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://sydwell:Lebeloane@cluster0.owe4bf6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 // Initialize storage
 async function initializeStorage() {
-  if (!mongoUri) {
-    console.log('📦 No MongoDB URI provided, using in-memory storage');
-    const memStorage = new MemStorage();
-    storage = memStorage;
-    return;
-  }
-
   let mongoStorage: MongoStorage | null = null;
   try {
     mongoStorage = new MongoStorage(mongoUri);
@@ -216,7 +217,9 @@ async function initializeStorage() {
     storage = mongoStorage;
   } catch (error) {
     console.warn("MongoDB connection failed, using in-memory storage:", error);
-    const memStorage = new MemStorage();
+    const memStorage = new InMemoryStorage();
+    await memStorage.connect();
+    await memStorage.initializeWithMockData();
     storage = memStorage;
   }
 }

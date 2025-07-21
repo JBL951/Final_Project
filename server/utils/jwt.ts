@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { type User } from "@shared/schema";
 
-const JWT_SECRET = process.env.JWT_SECRET || "07ecac2932dc3dd6daa060c05a854eda";
+const JWT_SECRET = process.env.JWT_SECRET || "your-super-secret-jwt-key";
 
 export interface JWTPayload {
   userId: number;
