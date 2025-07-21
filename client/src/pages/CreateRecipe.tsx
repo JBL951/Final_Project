@@ -41,8 +41,15 @@ export default function CreateRecipe() {
   // Create recipe mutation
   const createMutation = useMutation({
     mutationFn: async (recipeData: InsertRecipe) => {
+      console.log("Client: Starting recipe creation with data:", recipeData);
+      
       const token = authService.getToken();
-      if (!token) throw new Error("Authentication required");
+      if (!token) {
+        console.error("Client: No authentication token found");
+        throw new Error("Authentication required");
+      }
+      
+      console.log("Client: Making request to /api/recipes with token:", token ? "present" : "missing");
       
       const response = await fetch("/api/recipes", {
         method: "POST",
@@ -53,8 +60,17 @@ export default function CreateRecipe() {
         body: JSON.stringify(recipeData),
       });
       
-      if (!response.ok) throw new Error("Failed to create recipe");
-      return response.json();
+      console.log("Client: Response status:", response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Client: Recipe creation failed:", errorText);
+        throw new Error(`Failed to create recipe: ${errorText}`);
+      }
+      
+      const result = await response.json();
+      console.log("Client: Recipe created successfully:", result);
+      return result;
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/recipes/my"] });
@@ -83,8 +99,15 @@ export default function CreateRecipe() {
   // Update recipe mutation
   const updateMutation = useMutation({
     mutationFn: async (recipeData: InsertRecipe) => {
+      console.log("Client: Starting recipe update with data:", recipeData);
+      
       const token = authService.getToken();
-      if (!token) throw new Error("Authentication required");
+      if (!token) {
+        console.error("Client: No authentication token found");
+        throw new Error("Authentication required");
+      }
+      
+      console.log("Client: Making request to /api/recipes/" + editId + " with token:", token ? "present" : "missing");
       
       const response = await fetch(`/api/recipes/${editId}`, {
         method: "PUT",
@@ -95,8 +118,17 @@ export default function CreateRecipe() {
         body: JSON.stringify(recipeData),
       });
       
-      if (!response.ok) throw new Error("Failed to update recipe");
-      return response.json();
+      console.log("Client: Response status:", response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Client: Recipe update failed:", errorText);
+        throw new Error(`Failed to update recipe: ${errorText}`);
+      }
+      
+      const result = await response.json();
+      console.log("Client: Recipe updated successfully:", result);
+      return result;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/recipes/my"] });
@@ -118,9 +150,14 @@ export default function CreateRecipe() {
   });
 
   const handleSubmit = (data: InsertRecipe) => {
+    console.log("CreateRecipe: handleSubmit called with data:", data);
+    console.log("CreateRecipe: isEditing =", isEditing);
+    
     if (isEditing) {
+      console.log("CreateRecipe: Starting update mutation...");
       updateMutation.mutate(data);
     } else {
+      console.log("CreateRecipe: Starting create mutation...");
       createMutation.mutate(data);
     }
   };

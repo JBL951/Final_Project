@@ -12,7 +12,11 @@ import { Plus, X, Upload } from "lucide-react";
 import { insertRecipeSchema, type InsertRecipe } from "@shared/schema";
 import { z } from "zod";
 
-const recipeFormSchema = insertRecipeSchema.extend({
+const recipeFormSchema = insertRecipeSchema.omit({
+  ingredients: true,
+  instructions: true,
+  tags: true,
+}).extend({
   tagsString: z.string().optional(),
 });
 
@@ -31,6 +35,8 @@ export function RecipeForm({ initialData, onSubmit, onCancel, isLoading }: Recip
   const [tags, setTags] = useState<string[]>(initialData?.tags || []);
   const [tagInput, setTagInput] = useState("");
 
+  console.log("RecipeForm: Component rendered with props:", { initialData, isLoading });
+
   const form = useForm<RecipeFormData>({
     resolver: zodResolver(recipeFormSchema),
     defaultValues: {
@@ -41,6 +47,9 @@ export function RecipeForm({ initialData, onSubmit, onCancel, isLoading }: Recip
       isPublic: initialData?.isPublic ?? true,
     },
   });
+
+  console.log("RecipeForm: Form errors:", form.formState.errors);
+  console.log("RecipeForm: Form is valid:", form.formState.isValid);
 
   const addIngredient = () => {
     setIngredients([...ingredients, ""]);
@@ -82,9 +91,24 @@ export function RecipeForm({ initialData, onSubmit, onCancel, isLoading }: Recip
   };
 
   const handleSubmit = (data: RecipeFormData) => {
+    console.log("RecipeForm: Form submission started");
+    console.log("RecipeForm: Raw form data:", data);
+
     const filteredIngredients = ingredients.filter(ing => ing.trim());
     const filteredInstructions = instructions.filter(inst => inst.trim());
-    
+
+    // Custom validation for ingredients and instructions
+    if (filteredIngredients.length === 0) {
+      console.log("RecipeForm: Validation failed - no ingredients");
+      return;
+    }
+
+    if (filteredInstructions.length === 0) {
+      console.log("RecipeForm: Validation failed - no instructions");
+      return;
+    }
+
+    console.log("RecipeForm: Validation passed, submitting...");
     onSubmit({
       ...data,
       ingredients: filteredIngredients,
@@ -101,7 +125,13 @@ export function RecipeForm({ initialData, onSubmit, onCancel, isLoading }: Recip
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+        <form 
+          onSubmit={(e) => {
+            console.log("RecipeForm: Form submit event triggered");
+            form.handleSubmit(handleSubmit)(e);
+          }} 
+          className="space-y-6"
+        >
           {/* Basic Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -117,7 +147,7 @@ export function RecipeForm({ initialData, onSubmit, onCancel, isLoading }: Recip
                 </p>
               )}
             </div>
-            
+
             <div>
               <Label htmlFor="cookTime">Cook Time</Label>
               <Input
@@ -165,6 +195,11 @@ export function RecipeForm({ initialData, onSubmit, onCancel, isLoading }: Recip
           {/* Ingredients */}
           <div>
             <Label>Ingredients</Label>
+            {ingredients.filter(ing => ing.trim()).length === 0 && (
+              <p className="text-sm text-destructive mt-1">
+                At least one ingredient is required
+              </p>
+            )}
             <div className="space-y-2">
               {ingredients.map((ingredient, index) => (
                 <div key={index} className="flex items-center space-x-2">
@@ -199,6 +234,11 @@ export function RecipeForm({ initialData, onSubmit, onCancel, isLoading }: Recip
           {/* Instructions */}
           <div>
             <Label>Instructions</Label>
+            {instructions.filter(inst => inst.trim()).length === 0 && (
+              <p className="text-sm text-destructive mt-1">
+                At least one instruction step is required
+              </p>
+            )}
             <div className="space-y-2">
               {instructions.map((instruction, index) => (
                 <div key={index} className="flex items-start space-x-2">
@@ -279,6 +319,10 @@ export function RecipeForm({ initialData, onSubmit, onCancel, isLoading }: Recip
               type="submit"
               disabled={isLoading}
               className="primary-button"
+              onClick={(e) => {
+                console.log("RecipeForm: Save Recipe button clicked!");
+                // Don't prevent default - let the form handle it
+              }}
             >
               {isLoading ? "Saving..." : "Save Recipe"}
             </Button>

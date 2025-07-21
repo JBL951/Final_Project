@@ -17,7 +17,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/auth/register", async (req, res) => {
     try {
       const userData = insertUserSchema.parse(req.body);
-      
+
       // Check if user already exists
       const existingUser = await storage.getUserByEmail(userData.email);
       if (existingUser) {
@@ -26,7 +26,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Hash password
       const hashedPassword = await bcrypt.hash(userData.password, 10);
-      
+
       // Create user
       const user = await storage.createUser({
         ...userData,
@@ -35,7 +35,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Generate token
       const token = generateToken(user);
-      
+
       res.status(201).json({
         message: "User created successfully",
         token,
@@ -53,7 +53,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/auth/login", async (req, res) => {
     try {
       const loginData = loginSchema.parse(req.body);
-      
+
       // Find user
       const user = await storage.getUserByEmail(loginData.email);
       if (!user) {
@@ -68,7 +68,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Generate token
       const token = generateToken(user);
-      
+
       res.json({
         message: "Login successful",
         token,
@@ -124,7 +124,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const id = parseInt(req.params.id);
       const recipe = await storage.getRecipeWithAuthor(id);
-      
+
       if (!recipe) {
         return res.status(404).json({ message: "Recipe not found" });
       }
@@ -137,51 +137,75 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/recipes", authenticateToken, async (req: AuthenticatedRequest, res) => {
     try {
-      const recipeData = insertRecipeSchema.parse(req.body);
+      console.log("Recipe creation request:", {
+        body: req.body,
+        user: req.user,
+        headers: req.headers.authorization ? 'Token present' : 'No token'
+      });
       
+      const recipeData = insertRecipeSchema.parse(req.body);
+
       const recipe = await storage.createRecipe({
         ...recipeData,
         authorId: req.user!.userId,
       });
 
+      console.log("Recipe created successfully:", recipe.id);
       res.status(201).json(recipe);
     } catch (error) {
-      res.status(400).json({ message: "Invalid recipe data" });
+      console.error("Recipe creation error:", error);
+      if (error instanceof Error) {
+        res.status(400).json({ message: error.message });
+      } else {
+        res.status(400).json({ message: "Invalid recipe data" });
+      }
     }
   });
 
   app.put("/api/recipes/:id", authenticateToken, async (req: AuthenticatedRequest, res) => {
     try {
       const id = parseInt(req.params.id);
-      const updateData = updateRecipeSchema.parse(req.body);
+      console.log("Recipe update request:", {
+        recipeId: id,
+        body: req.body,
+        user: req.user
+      });
       
+      const updateData = updateRecipeSchema.parse(req.body);
+
       // Check if recipe exists and belongs to user
       const existingRecipe = await storage.getRecipe(id);
       if (!existingRecipe) {
         return res.status(404).json({ message: "Recipe not found" });
       }
-      
+
       if (existingRecipe.authorId !== req.user!.userId) {
         return res.status(403).json({ message: "Not authorized to update this recipe" });
       }
 
       const updatedRecipe = await storage.updateRecipe(id, updateData);
+      console.log("Recipe updated successfully:", updatedRecipe?.id);
       res.json(updatedRecipe);
     } catch (error) {
-      res.status(400).json({ message: "Invalid recipe data" });
+      console.error("Recipe update error:", error);
+      if (error instanceof Error) {
+        res.status(400).json({ message: error.message });
+      } else {
+        res.status(400).json({ message: "Invalid recipe data" });
+      }
     }
   });
 
   app.delete("/api/recipes/:id", authenticateToken, async (req: AuthenticatedRequest, res) => {
     try {
       const id = parseInt(req.params.id);
-      
+
       // Check if recipe exists and belongs to user
       const existingRecipe = await storage.getRecipe(id);
       if (!existingRecipe) {
         return res.status(404).json({ message: "Recipe not found" });
       }
-      
+
       if (existingRecipe.authorId !== req.user!.userId) {
         return res.status(403).json({ message: "Not authorized to delete this recipe" });
       }
@@ -215,7 +239,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const id = parseInt(req.params.id);
       const recipe = await storage.likeRecipe(id);
-      
+
       if (!recipe) {
         return res.status(404).json({ message: "Recipe not found" });
       }
@@ -227,7 +251,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const httpServer = createServer(app);
-  
+
   // Setup Socket.IO for real-time features
   const io = new SocketIOServer(httpServer, {
     cors: {
@@ -257,7 +281,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         likes: data.likes,
         type: "like"
       });
-      
+
       // Broadcast to general recipe feed
       socket.broadcast.emit("recipe_feed_update", {
         recipeId: data.recipeId,

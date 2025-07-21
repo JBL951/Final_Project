@@ -12,48 +12,59 @@
 [![Socket.io](https://img.shields.io/badge/Socket.io-4.8-black?logo=socket.io)](https://socket.io/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4-cyan?logo=tailwindcss)](https://tailwindcss.com/)
 
-[Live Demo](https://your-tastebase-url.replit.app) • [Documentation](./docs/) • [API Reference](./docs/api-documentation.md)
+[Live Demo](https://final-project-wqlc.onrender.com/) • [Documentation](./docs/) • [API Reference](./docs/api-documentation.md) • [Video Example](https://www.loom.com/share/f28af19429494ad499cd8bd2220ba316?sid=80a3efca-2897-4947-84df-57168d9fb97a)
 
 </div>
 
-##  Features
+## Features
 
-### **User Authentication**
+### 🔐 **User Authentication**
 - Secure JWT-based authentication
 - User registration and login
 - Password hashing with bcrypt
 - Protected routes and sessions
 
-### **Recipe Management**
+### 📚 **Recipe Management**
 - Create, edit, and delete recipes
 - Rich recipe forms with validation
 - Image support and tag categorization
 - Privacy settings (public/private)
 - Recipe export functionality (text & print)
 
-### **Discovery & Search**
+### 🔍 **Discovery & Search**
 - Advanced search across recipes
 - Category filtering (breakfast, lunch, dinner, dessert, vegetarian)
 - Sorting by popularity, date, cook time
 - Public recipe browsing
 
-### **Social Features**
+### 🌐 **Social Features**
 - Like and share recipes
 - Real-time updates with Socket.io
 - Author attribution and profiles
 - Community recipe feed
 
-### **Modern UI/UX**
+### 📱 **Modern UI/UX**
 - Responsive design for all devices
 - Dark/light theme support
 - Accessible components with Radix UI
 - Professional animations and interactions
 
-### **Quality Assurance**
+### 🧪 **Quality Assurance**
 - Comprehensive test suite (Jest + React Testing Library)
 - TypeScript for type safety
 - ESLint for code quality
 - Professional error handling
+
+# Images
+
+## Landing page
+![Landing page](docs/image.png)
+
+## Login page
+![Landing page](docs/images/image.png)
+
+## Personal Dashboard
+![Landing page](docs/images/dashboard.png)
 
 ## Quick Start
 
@@ -66,7 +77,7 @@
 
 1. **Clone the repository** (or [download as ZIP](./VSCODE_SETUP.md))
    ```bash
-   git clone <your-repo-url> tastebase
+   git clone https://github.com/AlphaC137/Final_Project
    cd tastebase
    ```
 
@@ -91,7 +102,7 @@ Email: sarah@example.com
 Password: password123
 ```
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 tastebase/
@@ -159,7 +170,7 @@ npm run check
 5. **Write tests** - Add comprehensive tests
 6. **Documentation** - Update relevant docs
 
-## Testing
+## 🧪 Testing
 
 ### Backend Testing
 - **API Endpoints**: Authentication, recipes, search
@@ -225,7 +236,7 @@ TasteBase is designed with a flexible storage interface:
 
 See [MongoDB Integration Guide](./docs/mongodb-integration.md) for production setup.
 
-## Documentation
+## 📚 Documentation
 
 ### For Developers
 - **[API Documentation](./docs/api-documentation.md)** - Complete endpoint reference
@@ -311,7 +322,7 @@ Ctrl+Shift+P → "TypeScript: Restart TS Server"
 
 See [VS Code Setup Guide](./VSCODE_SETUP.md) for more troubleshooting.
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
@@ -326,7 +337,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 <div align="center">
 
-**Built with ❤️ by the TasteBase team**
+**Built with coffee by Sydwell Lebeloane**
 
 [Report Bug](mailto:support@tastebase.com) • [Request Feature](mailto:features@tastebase.com) • [Documentation](./docs/)
 

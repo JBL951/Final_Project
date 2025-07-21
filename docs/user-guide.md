@@ -425,7 +425,7 @@ Contact us at: feedback@tastebase.com
 
 Thank you for using TasteBase! We're excited to be part of your culinary journey. Whether you're sharing family recipes, discovering new dishes, or building your personal recipe collection, TasteBase is here to help you organize and share your love of cooking.
 
-Happy cooking!
+Happy cooking! 🍳✨
 
 ---
 

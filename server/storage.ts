@@ -1,6 +1,8 @@
 import { users, recipes, type User, type InsertUser, type Recipe, type InsertRecipe, type UpdateRecipe, type RecipeWithAuthor } from "@shared/schema";
 import { mockUsers } from "./data/mockUsers";
 import { mockRecipes } from "./data/mockRecipes";
+import { MongoStorage } from './storage/mongodb';
+import { InMemoryStorage } from './storage/inMemory';
 
 export interface IStorage {
   // User operations
@@ -8,7 +10,7 @@ export interface IStorage {
   getUserByEmail(email: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  
+
   // Recipe operations
   getRecipe(id: number): Promise<Recipe | undefined>;
   getRecipeWithAuthor(id: number): Promise<RecipeWithAuthor | undefined>;
@@ -22,6 +24,13 @@ export interface IStorage {
 }
 
 export class MemStorage implements IStorage {
+  async connect() {
+    console.log('✅ In-memory storage connected');
+  }
+
+  async disconnect() {
+    console.log('📡 In-memory storage disconnected');
+  }
   private users: Map<number, User>;
   private recipes: Map<number, Recipe>;
   private currentUserId: number;
@@ -32,7 +41,7 @@ export class MemStorage implements IStorage {
     this.recipes = new Map();
     this.currentUserId = 1;
     this.currentRecipeId = 1;
-    
+
     // Initialize with mock data
     this.initializeMockData();
   }
@@ -49,6 +58,7 @@ export class MemStorage implements IStorage {
       const recipeWithId = { ...recipe, id: this.currentRecipeId++ };
       this.recipes.set(recipeWithId.id, recipeWithId);
     });
+    console.log(`📚 Loaded ${mockUsers.length} mock users and ${mockRecipes.length} mock recipes`);
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -81,10 +91,10 @@ export class MemStorage implements IStorage {
   async getRecipeWithAuthor(id: number): Promise<RecipeWithAuthor | undefined> {
     const recipe = this.recipes.get(id);
     if (!recipe) return undefined;
-    
+
     const author = this.users.get(recipe.authorId);
     if (!author) return undefined;
-    
+
     return {
       ...recipe,
       author: {
@@ -98,7 +108,7 @@ export class MemStorage implements IStorage {
     const publicRecipes = Array.from(this.recipes.values())
       .filter(recipe => recipe.isPublic)
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-    
+
     const recipesWithAuthors: RecipeWithAuthor[] = [];
     for (const recipe of publicRecipes) {
       const author = this.users.get(recipe.authorId);
@@ -112,7 +122,7 @@ export class MemStorage implements IStorage {
         });
       }
     }
-    
+
     return recipesWithAuthors;
   }
 
@@ -139,7 +149,7 @@ export class MemStorage implements IStorage {
   async updateRecipe(id: number, updateData: UpdateRecipe): Promise<Recipe | undefined> {
     const recipe = this.recipes.get(id);
     if (!recipe) return undefined;
-    
+
     const updatedRecipe = { ...recipe, ...updateData };
     this.recipes.set(id, updatedRecipe);
     return updatedRecipe;
@@ -164,7 +174,7 @@ export class MemStorage implements IStorage {
           )
         )
       );
-    
+
     const recipesWithAuthors: RecipeWithAuthor[] = [];
     for (const recipe of matchingRecipes) {
       const author = this.users.get(recipe.authorId);
@@ -178,18 +188,109 @@ export class MemStorage implements IStorage {
         });
       }
     }
-    
+
     return recipesWithAuthors;
   }
 
   async likeRecipe(id: number): Promise<Recipe | undefined> {
     const recipe = this.recipes.get(id);
     if (!recipe) return undefined;
-    
+
     const updatedRecipe = { ...recipe, likes: recipe.likes + 1 };
     this.recipes.set(id, updatedRecipe);
     return updatedRecipe;
   }
 }
 
-export const storage = new MemStorage();
+// MongoDB configuration
+const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://sydwell:Lebeloane@cluster0.owe4bf6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+
+// Initialize storage
+async function initializeStorage() {
+  let mongoStorage: MongoStorage | null = null;
+  try {
+    mongoStorage = new MongoStorage(mongoUri);
+    await mongoStorage.connect();
+    await mongoStorage.initializeCounters();
+    await importMockData(mongoStorage);
+    console.log('🚀 MongoDB storage initialized successfully');
+    storage = mongoStorage;
+  } catch (error) {
+    console.warn("MongoDB connection failed, using in-memory storage:", error);
+    const memStorage = new InMemoryStorage();
+    await memStorage.connect();
+    await memStorage.initializeWithMockData();
+    storage = memStorage;
+  }
+}
+
+// Migration function to import mock data
+async function importMockData(mongoStorage: MongoStorage) {
+  try {
+
+    // Check if data already exists
+    const existingUsers = await mongoStorage.users.countDocuments();
+    if (existingUsers > 0) {
+      console.log('📊 MongoDB already contains data, skipping mock data import');
+      return;
+    }
+
+    console.log('📊 Importing mock data to MongoDB...');
+
+    // Import users
+    const userMap = new Map<number, number>(); // old ID -> new ID
+    for (const mockUser of mockUsers) {
+      try {
+        const user = await mongoStorage.createUser(mockUser);
+        userMap.set(mockUser.id, user.id);
+        console.log(`✅ Imported user: ${user.username}`);
+      } catch (error: any) {
+        console.log(`⚠️ User ${mockUser.username} might already exist:`, error.message);
+      }
+    }
+
+    // Import recipes
+    for (const mockRecipe of mockRecipes) {
+      try {
+        const newAuthorId = userMap.get(mockRecipe.authorId);
+        if (newAuthorId) {
+          const { id, authorId, ...recipeData } = mockRecipe;
+          await mongoStorage.createRecipe({
+            ...recipeData,
+            authorId: newAuthorId
+          });
+          console.log(`✅ Imported recipe: ${mockRecipe.title}`);
+        }
+      } catch (error: any) {
+        console.log(`⚠️ Failed to import recipe ${mockRecipe.title}:`, error.message);
+      }
+    }
+
+    console.log('✅ Mock data import completed');
+  } catch (error) {
+    console.error('❌ Failed to import mock data:', error);
+  }
+}
+
+// Initialize on startup
+initializeStorage().catch(console.error);
+
+// Graceful shutdown
+process.on('SIGINT', async () => {
+  console.log('Shutting down gracefully...');
+  if (storage instanceof MongoStorage) {
+      await storage.disconnect();
+  }
+  process.exit(0);
+});
+
+process.on('SIGTERM', async () => {
+  console.log('Shutting down gracefully...');
+    if (storage instanceof MongoStorage) {
+        await storage.disconnect();
+    }
+  process.exit(0);
+});
+
+// Export the storage for use in routes
+export let storage: IStorage;
