@@ -58,7 +58,7 @@
 ## Images
 
 # Landing page
-![Landing page](doc/image.png)
+![Landing page](docs/image.png)
 
 ## Quick Start
 
