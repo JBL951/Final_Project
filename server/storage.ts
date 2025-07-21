@@ -195,10 +195,17 @@ export class MemStorage implements IStorage {
 }
 
 // MongoDB configuration
-const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://sydwell:Lebeloane@cluster0.owe4bf6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const mongoUri = process.env.MONGODB_URI;
 
 // Initialize storage
 async function initializeStorage() {
+  if (!mongoUri) {
+    console.log('📦 No MongoDB URI provided, using in-memory storage');
+    const memStorage = new MemStorage();
+    storage = memStorage;
+    return;
+  }
+
   let mongoStorage: MongoStorage | null = null;
   try {
     mongoStorage = new MongoStorage(mongoUri);
