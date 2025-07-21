@@ -16,8 +16,8 @@ export function Navigation() {
   const [location] = useLocation();
 
   const navItems = [
-    { href: "/", label: "Discover", icon: ChefHat },
-    { href: "/dashboard", label: "My Recipes", icon: User },
+    { href: "/recipes", label: "Discover", icon: ChefHat },
+    ...(isAuthenticated ? [{ href: "/dashboard", label: "My Recipes", icon: User }] : []),
   ];
 
   return (

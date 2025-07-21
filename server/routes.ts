@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { Server as SocketIOServer } from "socket.io";
 import bcrypt from "bcrypt";
+import path from "path";
 import { storage } from "./storage";
 import { authenticateToken, type AuthenticatedRequest } from "./middleware/auth";
 import { generateToken } from "./utils/jwt";
@@ -13,6 +14,11 @@ import {
 } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Static landing page route
+  app.get("/landing", (req, res) => {
+    res.sendFile(path.resolve(process.cwd(), "client", "landing.html"));
+  });
+
   // Auth routes
   app.post("/api/auth/register", async (req, res) => {
     try {

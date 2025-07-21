@@ -1,40 +1,45 @@
 # TasteBase Documentation
 
-Welcome to the TasteBase documentation hub. This directory contains comprehensive guides for developers, users, and administrators.
+Welcome to the TasteBase documentation. This directory contains comprehensive documentation for developers, users, and administrators.
 
-## Documentation Index
+## 📚 Documentation Index
 
 ### For Developers
-- **[API Documentation](./api-documentation.md)** - Complete API reference with examples
-- **[Architecture Guide](./architecture.md)** - System design and technical architecture
-- **[Testing Guide](./testing-guide.md)** - Comprehensive testing strategy and examples
-- **[MongoDB Integration](./mongodb-integration.md)** - Database integration guide
+- [API Documentation](./api.md) - Complete API reference with examples
+- [Architecture Guide](./architecture.md) - System design and technical architecture
+- [Testing Guide](./testing.md) - Comprehensive testing strategy and examples
+- [MongoDB Integration](./mongodb-integration.md) - Database integration guide
+- [Setup Guide](./setup-guide.md) - Development environment setup
 
 ### For Users
-- **[User Guide](./user-guide.md)** - Complete user manual for the application
-- **[Features Overview](./features.md)** - Detailed feature descriptions
+- [User Guide](./user-guide.md) - Complete user manual
+- [Features Overview](./features.md) - Detailed feature descriptions
 
-### For Administrators
-- **[Deployment Guide](./deployment.md)** - Production deployment instructions
-- **[Security Guide](./security.md)** - Security best practices and configuration
-- **[Performance Optimization](./performance.md)** - Performance tuning guidelines
+### For Deployment
+- [Deployment Guide](./deployment.md) - Production deployment instructions
+- [Security Guide](./security.md) - Security best practices and configuration
+- [Performance Guide](./performance.md) - Performance tuning guidelines
 
-## Quick Start
+### Project Information
+- [Project Overview](./project-overview.md) - High-level project description
+- [Assignment Requirements](./assignment-requirements.md) - Course requirements and completion status
+- [Detailed Architecture](./detailed-architecture.md) - In-depth technical architecture
 
-1. **Development Setup**: See the main [README.md](../README.md) for initial setup
-2. **API Testing**: Use the [API Documentation](./api-documentation.md) for endpoint testing
-3. **Database Setup**: Follow the [MongoDB Integration Guide](./mongodb-integration.md) for production database
-4. **Deployment**: Use the [Deployment Guide](./deployment.md) for production deployment
+## 📸 Screenshots
 
-## Contributing
+All application screenshots can be found in the [images](./images) directory:
+- Landing Page: [landing-page.png](./images/landing-page.png)
+- Login Page: [login-page.png](./images/login-page.png)
+- Dashboard: [dashboard.png](./images/dashboard.png)
 
-When contributing to TasteBase, please:
-1. Follow the architecture guidelines in the [Architecture Guide](./architecture.md)
-2. Add comprehensive tests following the [Testing Guide](./testing-guide.md)
-3. Update documentation for any new features or changes
-4. Ensure security best practices from the [Security Guide](./security.md) are followed
+## 🔍 Quick Links
 
-## Support
+- [Main README](../README.md)
+- [Live Demo](https://final-project-wqlc.onrender.com/)
+- [Video Demo](https://www.loom.com/share/f28af19429494ad499cd8bd2220ba316)
+- [Source Code](https://github.com/JBL951/Final_Project)
+
+## 💡 Support
 
 For technical support or questions:
 - Check the relevant documentation section first

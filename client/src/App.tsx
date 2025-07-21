@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navigation } from "@/components/Navigation";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/hooks/useAuth";
+import Landing from "@/pages/Landing";
 import Home from "@/pages/Home";
 import Dashboard from "@/pages/Dashboard";
 import CreateRecipe from "@/pages/CreateRecipe";
@@ -20,7 +21,9 @@ function AppContent() {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <Switch>
-        <Route path="/" component={(props) => {
+        <Route path="/" component={Landing} />
+        
+        <Route path="/recipes" component={(props) => {
           const searchParams = new URLSearchParams(window.location.search);
           const searchQuery = searchParams.get('search') || undefined;
           return <Home searchQuery={searchQuery} />;

@@ -12,7 +12,7 @@
 [![Socket.io](https://img.shields.io/badge/Socket.io-4.8-black?logo=socket.io)](https://socket.io/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4-cyan?logo=tailwindcss)](https://tailwindcss.com/)
 
-[Live Demo](https://final-project-wqlc.onrender.com/) • [Documentation](./docs/) • [API Reference](./docs/api-documentation.md) • [Video Example](https://www.loom.com/share/f28af19429494ad499cd8bd2220ba316?sid=80a3efca-2897-4947-84df-57168d9fb97a)
+[Live Demo](https://final-project-wqlc.onrender.com/) • [Documentation](./docs/) • [API Reference](./docs/api.md) • [Video Demo](https://www.loom.com/share/f28af19429494ad499cd8bd2220ba316)
 
 </div>
 
@@ -55,16 +55,16 @@
 - ESLint for code quality
 - Professional error handling
 
-# Images
+# Screenshots
 
-## Landing page
-![Landing page](docs/image.png)
+## Landing Page
+![Landing page](./docs/images/landing-page.png)
 
-## Login page
-![Landing page](docs/images/image.png)
+## Login Page
+![Login page](./docs/images/login-page.png)
 
 ## Personal Dashboard
-![Landing page](docs/images/dashboard.png)
+![Dashboard](./docs/images/dashboard.png)
 
 ## Quick Start
 
@@ -239,17 +239,17 @@ See [MongoDB Integration Guide](./docs/mongodb-integration.md) for production se
 ## 📚 Documentation
 
 ### For Developers
-- **[API Documentation](./docs/api-documentation.md)** - Complete endpoint reference
+- **[API Documentation](./docs/api.md)** - Complete endpoint reference
 - **[Architecture Guide](./docs/architecture.md)** - System design and patterns
-- **[Testing Guide](./docs/testing-guide.md)** - Testing strategies
+- **[Testing Guide](./docs/testing.md)** - Testing strategies
 - **[MongoDB Integration](./docs/mongodb-integration.md)** - Database setup
+- **[Setup Guide](./docs/setup-guide.md)** - Development environment setup
 
 ### For Users
 - **[User Guide](./docs/user-guide.md)** - Application user manual
 - **[Feature Overview](./docs/features.md)** - Detailed feature descriptions
 
 ### For Deployment
-- **[VS Code Setup](./VSCODE_SETUP.md)** - Local development setup
 - **[Deployment Guide](./docs/deployment.md)** - Production deployment
 - **[Security Guide](./docs/security.md)** - Security best practices
 
@@ -320,7 +320,7 @@ npm install
 Ctrl+Shift+P → "TypeScript: Restart TS Server"
 ```
 
-See [VS Code Setup Guide](./VSCODE_SETUP.md) for more troubleshooting.
+See [Setup Guide](./docs/setup-guide.md) for more troubleshooting.
 
 ## License
 
