@@ -66,7 +66,7 @@
 
 1. **Clone the repository** (or [download as ZIP](./VSCODE_SETUP.md))
    ```bash
-   git clone <your-repo-url> tastebase
+   git clone https://github.com/AlphaC137/Final_Project
    cd tastebase
    ```
 
