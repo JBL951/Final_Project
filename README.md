@@ -55,9 +55,9 @@
 - ESLint for code quality
 - Professional error handling
 
-## Images
+# Images
 
-# Landing page
+## Landing page
 ![Landing page](docs/image.png)
 
 ## Quick Start
