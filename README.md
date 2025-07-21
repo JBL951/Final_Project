@@ -61,7 +61,7 @@
 ![Landing page](docs/image.png)
 
 ## Login page
-![Landing page](docs/pictures/image.png)
+![Landing page](docs/images/image.png)
 
 ## Quick Start
 
