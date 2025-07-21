@@ -12,11 +12,11 @@
 [![Socket.io](https://img.shields.io/badge/Socket.io-4.8-black?logo=socket.io)](https://socket.io/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4-cyan?logo=tailwindcss)](https://tailwindcss.com/)
 
-[Live Demo](https://your-tastebase-url.replit.app) • [Documentation](./docs/) • [API Reference](./docs/api-documentation.md)
+[Live Demo](https://final-project-wqlc.onrender.com/) • [Documentation](./docs/) • [API Reference](./docs/api-documentation.md)
 
 </div>
 
-## ✨ Features
+## Features
 
 ### 🔐 **User Authentication**
 - Secure JWT-based authentication
@@ -55,7 +55,7 @@
 - ESLint for code quality
 - Professional error handling
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -91,7 +91,7 @@ Email: sarah@example.com
 Password: password123
 ```
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 tastebase/
@@ -242,7 +242,7 @@ See [MongoDB Integration Guide](./docs/mongodb-integration.md) for production se
 - **[Deployment Guide](./docs/deployment.md)** - Production deployment
 - **[Security Guide](./docs/security.md)** - Security best practices
 
-## 🚀 Deployment
+## Deployment
 
 ### Quick Deploy to Replit
 1. Fork this Repl or import from GitHub
@@ -311,7 +311,7 @@ Ctrl+Shift+P → "TypeScript: Restart TS Server"
 
 See [VS Code Setup Guide](./VSCODE_SETUP.md) for more troubleshooting.
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
@@ -326,7 +326,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 <div align="center">
 
-**Built with ❤️ by the TasteBase team**
+**Built with coffee by Sydwell Lebeloane**
 
 [Report Bug](mailto:support@tastebase.com) • [Request Feature](mailto:features@tastebase.com) • [Documentation](./docs/)
 
